@@ -4,150 +4,7 @@
   <meta charset="UTF-8" />
   <title>Zuvia Tracker (Firebase)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      background: #faf7f4;
-      color: #333;
-    }
-    header {
-      background: #111;
-      color: #f7f1ea;
-      padding: 1rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.2rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-    header span {
-      font-size: 0.8rem;
-      opacity: 0.7;
-    }
-    main {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 1rem 1.5rem 2rem;
-    }
-    .status {
-      font-size: 0.8rem;
-      margin: 0.4rem 0 1rem;
-      color: #666;
-    }
-    .tabs {
-      display: flex;
-      gap: 0.5rem;
-      margin-bottom: 0.5rem;
-      border-bottom: 1px solid #ddd;
-    }
-    .tab {
-      padding: 0.4rem 0.8rem;
-      border-radius: 999px 999px 0 0;
-      border: none;
-      cursor: pointer;
-      background: transparent;
-      font-size: 0.85rem;
-    }
-    .tab.active {
-      background: #fff;
-      border: 1px solid #ddd;
-      border-bottom: 1px solid #fff;
-    }
-    .panel {
-      display: none;
-      background: #fff;
-      border-radius: 0 0 12px 12px;
-      border: 1px solid #ddd;
-      padding: 0.8rem 1rem 1rem;
-    }
-    .panel.active {
-      display: block;
-    }
-    h2 {
-      font-size: 1rem;
-      margin-top: 0;
-      margin-bottom: 0.4rem;
-    }
-    form {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 0.75rem 1rem;
-      margin-bottom: 0.8rem;
-      padding: 0.7rem;
-      border-radius: 8px;
-      background: #fafafa;
-      border: 1px solid #eee;
-    }
-    label {
-      font-size: 0.75rem;
-      display: block;
-      margin-bottom: 0.2rem;
-    }
-    input, select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 0.35rem 0.5rem;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      font-size: 0.8rem;
-    }
-    button {
-      font-size: 0.8rem;
-      cursor: pointer;
-      border-radius: 999px;
-      border: none;
-      padding: 0.45rem 0.9rem;
-    }
-    .btn-primary {
-      background: #111;
-      color: #fff;
-    }
-    .btn-secondary {
-      background: #e8e1d8;
-      color: #333;
-    }
-    .btn-danger {
-      background: #e57373;
-      color: #fff;
-      border-radius: 999px;
-      border: none;
-      padding: 0.2rem 0.5rem;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.78rem;
-      margin-top: 0.4rem;
-    }
-    th, td {
-      border-bottom: 1px solid #eee;
-      padding: 0.35rem 0.4rem;
-      text-align: left;
-    }
-    th {
-      background: #f5f5f5;
-      font-weight: 600;
-    }
-    tr:nth-child(even) {
-      background: #fbfbfb;
-    }
-    .right {
-      text-align: right;
-    }
-    .pill {
-      padding: 0.15rem 0.45rem;
-      border-radius: 999px;
-      background: #eee;
-      font-size: 0.65rem;
-      display: inline-block;
-      margin-left: 0.2rem;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
@@ -172,7 +29,7 @@
     <form id="fabricForm">
       <div><label>Fabric ID *</label><input id="fabricId" required /></div>
       <div><label>Name *</label><input id="fabricName" required /></div>
-      <div><label>Color</label><input id="fabricColor" /></div>
+      <div><label>Color / Print</label><input id="fabricColor" /></div>
       <div><label>Supplier</label><input id="fabricSupplier" /></div>
       <div><label>Meters *</label><input id="fabricMeters" type="number" step="0.01" required /></div>
       <div><label>Cost per Meter *</label><input id="fabricCostPerMeter" type="number" step="0.01" required /></div>
@@ -182,13 +39,13 @@
 
     <table>
       <thead>
-      <tr>
-        <th>ID</th><th>Name</th><th>Color</th><th>Supplier</th>
-        <th class="right">Meters</th>
-        <th class="right">Cost/m</th>
-        <th class="right">Total</th>
-        <th></th>
-      </tr>
+        <tr>
+          <th>ID</th><th>Name</th><th>Color</th><th>Supplier</th>
+          <th class="right">Meters</th>
+          <th class="right">Cost/m</th>
+          <th class="right">Total</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody id="fabricTableBody"></tbody>
     </table>
@@ -202,24 +59,34 @@
       <div><label>Design ID *</label><input id="designId" required /></div>
       <div><label>Design Name *</label><input id="designName" required /></div>
       <div><label>Fabric *</label><select id="designFabricId" required></select></div>
-      <div><label>Pieces *</label><input id="designPieces" type="number" required /></div>
-      <div><label>Fabric per Piece *</label><input id="designFabricPerPiece" type="number" step="0.01" required /></div>
-      <div><label>Other Cost</label><input id="designOtherCost" type="number" /></div>
+
+      <!-- Size breakdown -->
+      <div><label>XS Qty</label><input id="sizeXS" type="number" min="0" step="1" /></div>
+      <div><label>S Qty</label><input id="sizeS" type="number" min="0" step="1" /></div>
+      <div><label>M Qty</label><input id="sizeM" type="number" min="0" step="1" /></div>
+      <div><label>L Qty</label><input id="sizeL" type="number" min="0" step="1" /></div>
+      <div><label>XL Qty</label><input id="sizeXL" type="number" min="0" step="1" /></div>
+
+      <div><label>Fabric per Piece (m) *</label><input id="designFabricPerPiece" type="number" step="0.01" required /></div>
+      <div><label>Other Costs (total)</label><input id="designOtherCost" type="number" min="0" step="0.01" /></div>
       <div style="align-self:end;"><button class="btn-primary" type="submit">Save Design</button></div>
     </form>
 
     <table>
       <thead>
-      <tr>
-        <th>ID</th><th>Name</th><th>Fabric</th>
-        <th class="right">Pieces</th>
-        <th class="right">Fabric Used</th>
-        <th class="right">Fabric Cost</th>
-        <th class="right">Other Cost</th>
-        <th class="right">Total</th>
-        <th class="right">Cost/Piece</th>
-        <th></th>
-      </tr>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Fabric</th>
+          <th>Sizes</th>
+          <th class="right">Total Pieces</th>
+          <th class="right">Fabric Used (m)</th>
+          <th class="right">Fabric Cost</th>
+          <th class="right">Other Cost</th>
+          <th class="right">Total Cost</th>
+          <th class="right">Cost/Piece</th>
+          <th></th>
+        </tr>
       </thead>
       <tbody id="designTableBody"></tbody>
     </table>
@@ -227,186 +94,7 @@
 
 </main>
 
-<!-- Firebase Script -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import {
-    getFirestore, collection, getDocs, setDoc,
-    deleteDoc, doc
-  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-
-  /* 🔥 YOUR REAL FIREBASE CONFIG (CORRECT) */
-  const firebaseConfig = {
-    apiKey: "AIzaSyAi6RcOg_8pLaj337D5MJw4LpU2QfMieu4",
-    authDomain: "zuvia-tracker.firebaseapp.com",
-    projectId: "zuvia-tracker",
-    storageBucket: "zuvia-tracker.firebasestorage.app",
-    messagingSenderId: "428384622870",
-    appId: "1:428384622870:web:7573e73262194b182ad837"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  const statusText = document.getElementById("statusText");
-  let state = { fabrics: [], designs: [] };
-
-  /* ---------------- LOAD DATA ---------------- */
-  async function loadFabrics() {
-    const snap = await getDocs(collection(db, "fabrics"));
-    state.fabrics = snap.docs.map(d => d.data());
-  }
-
-  async function loadDesigns() {
-    const snap = await getDocs(collection(db, "designs"));
-    state.designs = snap.docs.map(d => d.data());
-  }
-
-  async function initialLoad() {
-    try {
-      await loadFabrics();
-      await loadDesigns();
-      statusText.textContent = "Connected to Firebase ✔ Data loaded.";
-      renderAll();
-    } catch (e) {
-      statusText.textContent = "Error loading data.";
-      console.error(e);
-    }
-  }
-
-  /* ---------------- FABRIC FORM ---------------- */
-  const fabricForm = document.getElementById("fabricForm");
-  const fabricTableBody = document.getElementById("fabricTableBody");
-
-  fabricForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fabric = {
-      id: fabricId.value.trim(),
-      name: fabricName.value.trim(),
-      color: fabricColor.value.trim(),
-      supplier: fabricSupplier.value.trim(),
-      meters: parseFloat(fabricMeters.value),
-      costPerMeter: parseFloat(fabricCostPerMeter.value),
-      purchaseDate: fabricDate.value || null
-    };
-
-    await setDoc(doc(db, "fabrics", fabric.id), fabric);
-    await loadFabrics();
-    renderAll();
-    fabricForm.reset();
-  });
-
-  function renderFabrics() {
-    fabricTableBody.innerHTML = "";
-    state.fabrics.forEach(f => {
-      const total = f.meters * f.costPerMeter;
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${f.id}</td><td>${f.name}</td><td>${f.color}</td><td>${f.supplier}</td>
-        <td class="right">${f.meters.toFixed(2)}</td>
-        <td class="right">${f.costPerMeter.toFixed(2)}</td>
-        <td class="right">${total.toFixed(2)}</td>
-        <td class="right">
-          <button class="btn-danger" data-del-fabric="${f.id}">X</button>
-        </td>
-      `;
-      fabricTableBody.appendChild(tr);
-    });
-
-    document.querySelectorAll("[data-del-fabric]").forEach(btn =>
-      btn.onclick = async () => {
-        await deleteDoc(doc(db, "fabrics", btn.dataset.delFabric));
-        await loadFabrics();
-        renderAll();
-      }
-    );
-  }
-
-  /* ---------------- DESIGN FORM ---------------- */
-  const designForm = document.getElementById("designForm");
-  const designFabricSelect = document.getElementById("designFabricId");
-  const designTableBody = document.getElementById("designTableBody");
-
-  designForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const d = {
-      id: designId.value.trim(),
-      name: designName.value.trim(),
-      fabricId: designFabricId.value,
-      pieces: parseInt(designPieces.value),
-      fabricPerPiece: parseFloat(designFabricPerPiece.value),
-      otherCost: parseFloat(designOtherCost.value || 0)
-    };
-
-    await setDoc(doc(db, "designs", d.id), d);
-    await loadDesigns();
-    renderAll();
-    designForm.reset();
-  });
-
-  function renderDesignFabricOptions() {
-    designFabricSelect.innerHTML = `<option value="">Select fabric</option>`;
-    state.fabrics.forEach(f => {
-      const opt = document.createElement("option");
-      opt.value = f.id;
-      opt.textContent = `${f.id} - ${f.name}`;
-      designFabricSelect.appendChild(opt);
-    });
-  }
-
-  function renderDesigns() {
-    designTableBody.innerHTML = "";
-    state.designs.forEach(d => {
-      const f = state.fabrics.find(x => x.id === d.fabricId);
-      const fabricCost = f ? f.costPerMeter * d.pieces * d.fabricPerPiece : 0;
-      const total = fabricCost + d.otherCost;
-      const costPerPiece = total / d.pieces;
-
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${d.id}</td>
-        <td>${d.name}</td>
-        <td>${d.fabricId} <span class="pill">${f ? f.name : "Unknown"}</span></td>
-        <td class="right">${d.pieces}</td>
-        <td class="right">${(d.pieces * d.fabricPerPiece).toFixed(2)}</td>
-        <td class="right">${fabricCost.toFixed(2)}</td>
-        <td class="right">${d.otherCost.toFixed(2)}</td>
-        <td class="right">${total.toFixed(2)}</td>
-        <td class="right">${costPerPiece.toFixed(2)}</td>
-        <td class="right"><button class="btn-danger" data-del-design="${d.id}">X</button></td>
-      `;
-      designTableBody.appendChild(tr);
-    });
-
-    document.querySelectorAll("[data-del-design]").forEach(btn =>
-      btn.onclick = async () => {
-        await deleteDoc(doc(db, "designs", btn.dataset.delDesign));
-        await loadDesigns();
-        renderAll();
-      }
-    );
-  }
-
-  /* --------------- RENDER ALL ----------------- */
-  function renderAll() {
-    renderFabrics();
-    renderDesignFabricOptions();
-    renderDesigns();
-  }
-
-  /* --------------- TABS SWITCH ---------------- */
-  document.querySelectorAll(".tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-      tab.classList.add("active");
-      document.getElementById(tab.dataset.target).classList.add("active");
-    });
-  });
-
-  /* --------------- START APP ------------------ */
-  initialLoad();
-</script>
-
+<!-- App script -->
+<script type="module" src="app.js"></script>
 </body>
 </html>
